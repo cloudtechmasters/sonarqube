@@ -1,52 +1,56 @@
-# spring-boot-hello
+# Deploy spring-boot-hello to sonarqube
 
-Pre-requisites:
------
-  - Install Java
-  - Install GIT
-  - Install Maven
-  - Install Docker
-  - Install Jenkins
-  - Create ECR Repo with the name of "hellospringboot"
-  - Create a policy for ECS full Access with name of "AmazonECSFullAccess"
-  - Create IAM Role with the name of "ecrFullAccess-ecsTaskExecutionRole" also add below policies
-      * AmazonEC2ContainerRegistryFullAccess
-      * AmazonECSTaskExecutionRolePolicy
-      * AmazonECSFullAccess
-  
-Create Maven Job:
--------
-1)  SCM: 
---------
-    
-    https://github.com/VamsiTechTuts/spring-boot-hello.git
-2)  Maven:
-----------
+## Pre-requisites:
+    - Install Java
+    - Install Git
+    - Install Maven
+    - Install Jenkins
+## Install Java:
+    yum install java-1.8.0-openjdk-devel -y
+## Install Git:
+    yum install git -y
+## Install Apache-Maven:
+    wget https://mirrors.estointernet.in/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
+    tar xvzf apache-maven-3.6.3-bin.tar.gz
 
-    Give name for Maven and also give "clean install"
+    vi /etc/profile.d/maven.sh
+    --------------------------------------------
+    export MAVEN_HOME=/opt/apache-maven-3.6.3
+    export PATH=$PATH:$MAVEN_HOME/bin
+    --------------------------------------------
 
-3) Push image to ECR:
----------------------
+    source /etc/profile.d/maven.sh
+    mvn -version
+## Install Jenkins
+    sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins.io/redhat-stable/jenkins.repo
+    sudo rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+    sudo yum install jenkins -y
+    service jenkins start
+## Integrate Sonarqube with jenkins
+1. Add sonarqube plugin 
+2. Add SonarQube servers with in jenkins
+   - Need to create authentication token with Sonarqube server
+   
+     ![image](https://user-images.githubusercontent.com/68885738/90910319-bebffd00-e3f4-11ea-8590-c9ae9018973e.png)
+     
+     Click on My Account
+     
+     ![image](https://user-images.githubusercontent.com/68885738/90910508-0ba3d380-e3f5-11ea-918a-1234e695ba01.png)
+     
+     select security and give some name for token and then click on Generate
+3. Add SonarQube servers details with in "configure system"
 
-    #!/usr/bin/env bash
-    export AWS_DEFAULT_REGION=us-west-2
-    $(aws ecr get-login --no-include-email --region us-west-2)
-    DOCKER_REPO=`aws ecr describe-repositories --repository-names hellospringboot | grep repositoryUri | cut -d "\"" -f 4`
-    docker build --no-cache -t ${DOCKER_REPO}:1.0 .
-    docker push ${DOCKER_REPO}:1.0
+![image](https://user-images.githubusercontent.com/68885738/90910714-689f8980-e3f5-11ea-889c-68e63b8302ce.png)
 
-4)  Deploy Spring boot application On ECS:
-------------------------------------------
+Name: sonar-scanner
+Server URL: http://54.210.37.165:9000/
+Server authentication token: (Create secret text with authentication token)
 
-    #!/usr/bin/env bash
-    export AWS_DEFAULT_REGION=us-west-2
-    dockerRepo=`aws ecr describe-repositories --repository-name hellospringboot --region us-west-2 | grep repositoryUri | cut -d "\"" -f 4`
-    dockerTag=`aws ecr list-images --repository-name hellospringboot --region us-west-2 | grep imageTag | head -n 1 | cut -d "\"" -f 4`
-    sed -e "s;DOCKER_IMAGE_NAME;${dockerRepo}:${dockerTag};g" ${WORKSPACE}/template.json > taskDefinition.json
-    aws ecs create-cluster --cluster-name test-cluster
-    aws ecs register-task-definition --family jenkins-test --cli-input-json file://taskDefinition.json --region us-west-2
-    revision=`aws ecs describe-task-definition --task-definition jenkins-test --region us-west-2 | grep "revision" | tr -s " " | cut -d " " -f 3`
-    aws ecs create-service --cluster test-cluster --service-name test-service --task-definition jenkins-test:${revision} --desired-count 1 --launch-type FARGATE --platform-version LATEST --network-configuration "awsvpcConfiguration={subnets=[subnet-8a1fdcf2],securityGroups=[sg-f9abbfaa],assignPublicIp=ENABLED}"
-    
-  
+4. Add SonarQube Scanner with in "Global Tool Configuration"
 
+![image](https://user-images.githubusercontent.com/68885738/90910959-dea3f080-e3f5-11ea-8d79-6062bff26d25.png)
+
+## Create new pipeline job with jenkinsfile content and build
+![image](https://user-images.githubusercontent.com/68885738/90911197-3cd0d380-e3f6-11ea-8b9e-27ff41492e4a.png)
+
+Click on "SonarQube" and check details
