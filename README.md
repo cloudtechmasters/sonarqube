@@ -35,7 +35,7 @@
      wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.4.0.2170-linux.zip
      unzip sonar-scanner-cli-4.4.0.2170-linux.zip
      cd sonar-scanner-4.4.0.2170-linux/conf/sonar-scanner.properties
-     ![image](https://user-images.githubusercontent.com/68885738/90954007-29714700-e48e-11ea-815d-fa851fc21839.png)
+   ![image](https://user-images.githubusercontent.com/68885738/90954007-29714700-e48e-11ea-815d-fa851fc21839.png)
 Give sonaeqube url inside of "sonar-scanner.properties" file
 ## Integrate Sonarqube with jenkins
 1. Add sonarqube plugin 
