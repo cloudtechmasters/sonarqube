@@ -59,7 +59,7 @@ Download the latest sonarqube installation file to /opt folder. You can get the 
 Unzip sonarqube source files and rename the folder.
 	
     sudo unzip sonarqube-7.6.zip
-	  sudo mv sonarqube-7.6 sonarqube
+    sudo mv sonarqube-7.6 sonarqube
     chown -R ec2-user:ec2-user /opt/sonarqube
 	
 Open /opt/sonarqube/conf/sonar.properties file
@@ -78,7 +78,7 @@ Change the Run as User: to ec2-user
 Start the sonarqube service
 	
     sh sonar.sh start
-	  sh sonar.sh status
+    sh sonar.sh status
 Troubleshooting Sonarqube:
 All the logs of sonarqube are present in the /opt/sonarqube/logs directory
 	
