@@ -5,6 +5,8 @@
     - Install Git
     - Install Maven
     - Install Jenkins
+    - Install sonarqube
+    - Install sonar-scanner
 ## Install Java:
     yum install java-1.8.0-openjdk-devel -y
 ## Install Git:
