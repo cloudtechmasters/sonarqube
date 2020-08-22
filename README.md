@@ -31,13 +31,21 @@
 ## Integrate Sonarqube with jenkins
 1. Add sonarqube plugin 
 2. Add SonarQube servers with in jenkins
-   - Need to create authentication token with Sonarqube server
+   - Need to create authentication token with in Sonarqube server
    
      ![image](https://user-images.githubusercontent.com/68885738/90910319-bebffd00-e3f4-11ea-8590-c9ae9018973e.png)
-     
+   
+   - Need to create webhook with in Sonarqube server (use Jenkins server URL)
+    
+    ![image](https://user-images.githubusercontent.com/68885738/90953421-06906400-e489-11ea-9f1d-859b3b9fa7b8.png)
+        
      Click on My Account
      
      ![image](https://user-images.githubusercontent.com/68885738/90910508-0ba3d380-e3f5-11ea-918a-1234e695ba01.png)
+     
+     Fill details and click on create
+     
+     ![image](https://user-images.githubusercontent.com/68885738/90953480-80285200-e489-11ea-8ec1-0eedb4635efb.png)
      
      select security and give some name for token and then click on Generate
 3. Add SonarQube servers details with in "configure system"
