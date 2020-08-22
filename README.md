@@ -29,7 +29,7 @@
     sudo yum install jenkins -y
     service jenkins start
 ## Sonarqube installation
-    [Sonarqube installaton] (https://github.com/cloudtechmasters/sonarqube/blob/master/sonarqube-installation.md)
+    [Sonarqube installaton](https://github.com/cloudtechmasters/sonarqube/blob/master/sonarqube-installation.md)
 ## Integrate Sonarqube with jenkins
 1. Add sonarqube plugin 
 2. Add SonarQube servers with in jenkins
