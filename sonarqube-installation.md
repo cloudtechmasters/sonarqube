@@ -53,8 +53,8 @@ Switch to your sudo user using the exit command
 ## Setup Sonarqube Web Server
 Download the latest sonarqube installation file to /opt folder. You can get the latest download link from here. http://www.sonarqube.org/downloads/
 	
-    cd /opt 
-	  sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
+    cd /opt
+    sudo wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-7.6.zip
 	
 Unzip sonarqube source files and rename the folder.
 	
