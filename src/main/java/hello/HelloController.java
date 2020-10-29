@@ -9,6 +9,7 @@ public class HelloController {
     @RequestMapping("/")
     public String index() {
         System.out.println("adding something here to fail the build");
+        System.out.println("adding something here to fail the build for jenkins sonar integration");
         return "Greetings from Springboot..!!!";
     }
     
