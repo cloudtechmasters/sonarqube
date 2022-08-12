@@ -9,6 +9,26 @@
 	  sysctl fs.file-max
 	  ulimit -n
 	  ulimit -u
+## Kernel System changes
+we must make a few modifications to a couple of kernel system limits files for sonarqube to work.
+sudo vi /etc/sysctl.conf
+Add the following lines to the bottom of that file:
+
+vm.max_map_count=262144
+fs.file-max=65536
+
+
+Next, we're going to edit limits.conf. Open that file with the command:
+
+sudo vi /etc/security/limits.conf
+
+At the end of this file, add the following: 
+
+sonar   -   nofile   65536
+sonar   -   nproc    4096
+
+Reload system level changes without server boot
+sudo sysctl -p
 
 ## Setup PostgreSQL 10 Database For SonarQube
     amazon-linux-extras install postgresql10 vim epel -y
